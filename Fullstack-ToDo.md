@@ -27,11 +27,11 @@
 - Initialize the project using express-generator
 	- npx express-generator -e
 - NPM Install dotenv, mongodb, uuidv4, cors, nodemon
-- Change express server port to 4000 using the .env file
 - Update npm start script to use nodemon instead of node
 - Create a .env file in the project root
+- Change express server port to 4000 using the .env file
 - Add Mongo Connection env vars to .env file
-	- _Note_: For this project we will set the database env var to "todoDB"
+Note: For this project we will set the database env var to "todoDB"
 - Create the mongo.js file in the project root and add the mongo connection code
 - Add the boilerplate code for dotenv, mongo and cors to app.js
 - Run npm start to test that your server is connected to mongo and is up and running
