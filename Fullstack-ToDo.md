@@ -254,13 +254,13 @@ const mockTodos = [{
 ### Client Side:
 
 
-- Create a new <HomePage/> component in ./src/Pages
-- Create a new browser route "/" that resolves to the <HomePage/>
-- Create a <ToDoCard/> component
-- Create a useEffect in <HomePage/> to fetch the toDo's and store them in a state variable
-- Map through the todo's and return a <ToDoCard/> component for each todo
-- Create a <ToDoFormPage/> component in ./src/Pages
-- Build out <ToDoFormPage/> to have inputs to create a new todo by hitting the /todo/create route. 
+- Create a new ```<HomePage/>``` component in ./src/Pages
+- Create a new browser route "/" that resolves to the ```<HomePage/>```
+- Create a ```<ToDoCard/>``` component
+- Create a useEffect in ```<HomePage/>``` to fetch the toDo's and store them in a state variable
+- Map through the todo's and return a ```<ToDoCard/>``` component for each todo
+- Create a ```<ToDoFormPage/>``` component in ./src/Pages
+- Build out ```<ToDoFormPage/>``` to have inputs to create a new todo by hitting the /todo/create route. 
 
 
 
