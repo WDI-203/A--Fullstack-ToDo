@@ -30,11 +30,11 @@
 - Update npm start script to use nodemon instead of node
 - Create a .env file in the project root
 - Change express server port to 4000 using the .env file
-- Add Mongo Connection env vars to .env file
+- Add Mongoose Connection env vars to .env file
 	- _Note_: For this project we will set the database env var to "todoDB"
-- Create the mongo.js file in the project root and add the mongo connection code
+- Create the mongoose.js file in the project root and add the mongoose connection code
 - Add the boilerplate code for dotenv, mongo and cors to app.js
-- Run npm start to test that your server is connected to mongo and is up and running
+- Run npm start to test that your server is connected to mongodb and is up and running
 
 #### Client-Side
 - Initialize the project using create-react-app
@@ -49,76 +49,37 @@
 
 #### Server-Side
 - Create a simple todo's router file and add it to express in app.js
-- Add the following mock data as a global variable in the todo's router file
+- Add a Todo model with these fields
 ```
-const mockTodos = [{
-	id: "4387f4d8-aeac-4559-9f1b-3c5d537c955c",
-	title: "Implement Fullstack ToDo List",
-	description: "Implement the fullstack todo list application.",
-	isComplete: false,
-	priority: "High",
-	creationDate: new Date(),
-	lastModified: new Date(),
-	completedDate: null
-}, {
-	id: "e365f13c-4c1d-4ee1-8a66-3dbbbab71f0d",
-	title: "Create /all route for mock data",
-	description: "Create an express route that will respond with the mock todo list.",
-	isComplete: false,
-	priority: "High",
-	creationDate: new Date(),
-	lastModified: new Date(),
-	completedDate: null
-}, {
-	id: "08dd1f20-7d31-4120-89ed-343d4006a7cb",
-	title: "Create a home page in the client",
-	description: "Create a Home Page in React that will display all the todos.",
-	isComplete: false,
-	priority: "High",
-	creationDate: new Date(),
-	lastModified: new Date(),
-	completedDate: null
-}, {
-	id: "98a06f8f-50c9-4832-9d2d-daa45543db00",
-	title: "Create the todo card component",
-	description: "Create a react ToDoCard component that will be rendered for each todo on the home page.",
-	isComplete: false,
-	priority: "Medium",
-	creationDate: new Date(),
-	lastModified: new Date(),
-	completedDate: null
-}, {
-	id: "7c5d70bb-2a00-4009-9bb8-1bb163fb501f",
-	title: "Test basic application with mock data",
-	description: "Visit the client Home Page to see the todo's displayed as a list.",
-	isComplete: false,
-	priority: "Medium",
-	creationDate: new Date(),
-	lastModified: new Date(),
-	completedDate: null
-}]
+	id: it is a string, use uuid v4
+	title: string, required
+	description: string, required
+	isComplete: boolean, default is false
+	priority: string, enum: ["low", "medium", "high"], default to medium
+	creationDate: Date, default date now
+	lastModified: Date, default date now
+	completedDate: Date, no default
 ```
-- Create a /todos/all GET route that will respond with the mockTodos
+- Create a /todos/all GET route that will respond with all the todos using the .find method from mongoose.
 - _Optional_: Test the /todos/all route using Postman
 
 #### Client-Side
 - Create a Layouts, Pages and Components folders in the ./src folder
 - Create the following files and react components in those files: 
 	- _Note_: For now, keep these as basic react components.
-	- Create a new layout called GlobalLayout
 	- Create a new component called NavBar
 	- Create a new component called ToDoCard
 	- Create a new page called HomePage
-- Create a new browser router in the body of ```<App/>``` and add a new RouteProvider to the JSX of ```<App/>```.
-- Set the "/" route in the browser router to render the ```<GlobalLayout/>``` as the element.
-- Set the first child route of GlobalLayout to render ```<HomePage/>``` as the element. Set this route as the index route.
-- Import NavBar into the GlobalLayout file and add an instance of ```<NavBar/>``` into the JSX of ```<GlobalLayout/>```.
-- Import Outlet from react-router-dom and add the ```<Outlet/>``` component to ```<GlobalLayout/>``` under ```<NavBar/>```
+- Create a new browser router in the body of ```index.js``` and add a new RouteProvider with router.
+- Set the "/" children in the browser router to render the ```<App/>``` as the element.
+- Set the first child route of App to render ```<Home/>``` as the element. Set this route as the index route.
+- Import NavBar into the App.js file and add an instance of ```<NavBar/>``` into the JSX of ```<App/>```.
+- Import Outlet from react-router-dom and add the ```<Outlet/>``` component to ```<App/>``` under ```<NavBar/>```
 - Add an h1 header to the jsx of ```<HomePage/>``` that says 'Fullstack ToDo Application'.
 - Create a new state variable to ```<App/>``` called toDoList to hold our todos, it should be initialized to an empty array.
-- Create a new useEffect in the body of ```<App/>``` that fetches the mockTodos from the /todos/all API route and saves them to the toDoList state variable.
-- Pass toDoList as a prop into ```<HomePage/>``` (the browser router element).
-- In ```<HomePage/>```, map through the todo's in the toDoList prop and return a ```<ToDoCard/>``` for each todo. 
+- Create a new useEffect in the body of ```<App/>``` that fetches the todos from the /todos/all API route and saves them to the toDoList state variable.
+- Pass toDoList into ```<HomePage/>``` using context.
+- In ```<HomePage/>```, map through the todo's in the toDoList by grabbing it using useOutletContext and return a ```<ToDoCard/>``` for each todo. 
 - Inside the mapper function that is generating the ```<ToDoCard/>```'s, pass the toDo as a prop into ```<ToDoCard/>```.
 - In ```<ToDoCard/>``` display the following toDo information:
 	- The toDo title in an h2 tag.
@@ -126,20 +87,18 @@ const mockTodos = [{
 	- The text "Description:" and the toDo description in a p tag.
 	- The text "Priority:" and the toDo priority in a p tag.
 	- The text "Is Complete:" and the text "Complete" if toDo.isComplete is true or the text "Incomplete" if toDo.isComplete is false in a p tag.
-	- The text "Creation Date:" and the toDo creationDate.toString() in a p tag.
-	- The text "Last Modified:" and the toDo lastModified.toString() in a p tag.
+	- The text "Creation Date:" and the toDo creationDate in a p tag.
+	- The text "Last Modified:" and the toDo lastModified in a p tag.
 	- The text "Completed Date::" and the toDo completedDate in a p tag which only renders if the toDo completedDate is not null (truthy). 
-- If you implemented the above properly, you should see the mockTodos display on the Home Page as a list of ToDoCards.
 
 ### 3) Post and Persist
-- _Approach_: To switch over to mongo and have new toDo's be persisted in our database, we will create a POST route server side and hook it up to a form submission client side.
 
 #### Server-Side
 - Create a new POST route /todos/create-one that receives the following information from the request body and saves it to the mongo todos collection.
 	- title => type string
-	-	description => type string
-	-	priority => type string
-- The following fields should be generated in the API route when creating the toDo.
+ 	- description => type string
+  	- priority => type string
+- The following fields will be generated in the API route when creating the toDo.
 	- id => initialized to new uuid (using uuidv4)
 	- isComplete => initialized to false
 	- creationDate => initialized to a new date
@@ -176,14 +135,6 @@ const mockTodos = [{
 		- priority
 	- Add a button that says "Create ToDo" and have it call handleCreateToDo onClick.
 	- Add a programmatic redirect to "/" using react-router-dom in the Create ToDo button onClick handler.
-
-### 3.5) Refactor /all for Mongo
-- _Approach_: Now that we are able to create new toDo's in our database, we can switch the /todos/all route to use mongo instead of the mockdata.
-
-#### Server-Side
-- Switch the /todos/all route to find all toDo's in the mongo database and send those in the response instead of mocktodos.
-- _Optional_: Add some todo's to the database so we can see a list of todo's client-side.
-- If you implemented the above properly, you should be able to fill in the toDo Form fields, create a new toDo and be redirect to the Home Page. 
 
 ### 4) Mark ToDo Complete
 - _Approach_: We will add functionality to the toDo card so that a user can mark a toDo as complete.
