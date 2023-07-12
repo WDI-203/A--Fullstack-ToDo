@@ -26,7 +26,7 @@
 #### Server-Side
 - Initialize the project using express-generator
 	- npx express-generator -e
-- NPM Install dotenv, mongodb, uuidv4, cors, nodemon
+- NPM Install dotenv, mongoose, uuidv4, cors, nodemon
 - Update npm start script to use nodemon instead of node
 - Create a .env file in the project root
 - Change express server port to 4000 using the .env file
